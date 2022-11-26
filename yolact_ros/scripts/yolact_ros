@@ -53,6 +53,8 @@ FPS_CSV_FILE_NAME = 'fps_csv' + timestamp + '.csv'
 fps_csv_file = open(FPS_CSV_FOLDER + FPS_CSV_FILE_NAME, 'a+', encoding='utf-8', newline='')
 fps_csv_writer = csv.writer(fps_csv_file)
 fps_csv_writer.writerow(['processing_time_per_frame(second)'])
+FPS_SUM_TIME = 0.0
+FPS_CNT = 0
 
 CLASS_NAMES = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'bus', 'train', 'truck', 'boat', 'traffic light',
@@ -341,6 +343,8 @@ class YolactNode:
       preds = self.net(batch)
       end_eval_time = time.time()
       delta_time = end_eval_time - start_eval_time
+      FPS_SUM_TIME += delta_time
+      FPS_CNT += 1
       fps_csv_writer.writerow([delta_time])
       h, w, _ = frame.shape
       classes, scores, boxes, masks = self.postprocess_results(preds, w, h)
@@ -507,3 +511,4 @@ def main(args):
 if __name__ == '__main__':
     main(sys.argv)
     fps_csv_file.close()
+    print("\nYolact processed {} frames of image, took average {:.3f} secs per image".format(FPS_CNT, FPS_SUM_TIME/FPS_CNT))
