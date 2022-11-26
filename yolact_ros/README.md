@@ -8,7 +8,7 @@ ROS wrapper for Yolact.
 
 ## Installation
 
-Since Yolact uses Python 3, we highly recommand to use a docker container of Ubuntu 20.04 to run this ROS package. We run `yolact_ros` in Ubuntu 20.04 container while our other ros code runs in a Ubuntu 18.04 docker.
+Since Yolact uses Python 3, we highly recommand to use a docker container of Ubuntu 20.04 to run this ROS package. We run `yolact_ros` in Ubuntu 20.04 docker container while our other ros code runs in a Ubuntu 18.04 docker container.
 
 ## Usage
 
