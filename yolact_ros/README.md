@@ -8,38 +8,13 @@ ROS wrapper for Yolact.
 
 ## Installation
 
-Yolact uses Python 3. If you use a ROS version built with Python 2, additional steps are necessary to run the node.
-
-- Set up a Python 3 virtual environment.
-- Install the packages required by Yolact. See the Readme on https://github.com/dbolya/yolact for details.
-- Additionally, install the packages rospkg and empy in the virtual environment.
-- You need to build the cv_bridge module of ROS with Python 3. I recommend using a workspace separate from other ROS packages. Clone the package to the workspace. You might need to adjust some of the following instructions depending on your Python installation.
-  ```Shell
-  git clone -b melodic https://github.com/ros-perception/vision_opencv.git
-  ```
-- If you use catkin_make, compile with
-  ```Shell
-  catkin_make -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.6m.so
-  ```
-- For catkin tools, use
-  ```Shell
-  catkin config -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.6m.so
-  catkin build
-  ```
-- add the following lines to the postactivate script of your virtual environment (Change the paths according to your workspace path, virtual environment and Python installation):
-  ```Shell
-  source $HOME/ros_python3/devel/setup.bash
-  export OLD_PYTHONPATH="$PYTHONPATH"
-  export PYTHONPATH="$HOME/.virtualenvs/yolact/lib/python3.6/site-packages:$PYTHONPATH"
-  ```
-- add the following lines to the postdeactivate script of your virtual environment:
-  ```Shell
-  export PYTHONPATH="$OLD_PYTHONPATH"
-  ```
+Since Yolact uses Python 3, we highly recommand to use a docker container of Ubuntu 20.04 to run this ROS package. We run `yolact_ros` in Ubuntu 20.04 container while our other ros code runs in a Ubuntu 18.04 docker.
 
 ## Usage
 
 First, download (or train) a model to use. You can find pre-trained models [here](https://github.com/dbolya/yolact#evaluation). The default model is [yolact_base_54_800000.pth](https://drive.google.com/file/d/1UYy3dMapbH1BnmtZU4WH1zbYgOzzHHf_/view?usp=sharing). If you want to use a Yolact++ model, you'll have to install DCNv2 (see [Yolact installation instructions](https://github.com/dbolya/yolact#installation)). Note that the DCN version shipped with Yolact does currently not work with the newest Pytorch release. An updated version can be found [here](https://github.com/jinfagang/DCNv2_latest).
+
+We also provide our trained model, you can download from this link:
 
 You can run yolact using rosrun:
 ```Shell
@@ -75,3 +50,9 @@ The following parameters are available:
 | score_threshold       | Detections with a score under this threshold will not be considered | 0.0                     |
 | crop_masks            | If true, crop output masks with the predicted bounding box          | True                    |
 | top_k                 | Further restrict the number of predictions to parse                 | 5                       |
+### ROS Topics
+| Topic Name | Topic Messsage Type| Description |
+|--- | ---|--- |
+| /mask_rcnn/result | yolact_ros_msgs/Result| Instance segmantation results information, its message structure is same as in mask_rccn_ros package|
+| /yolact_ros/detections | yolact_ros_msgs/Detections| Instance segmantation results information, the masks are represented by  uint8 array not sensors_msgs/Image in mask_rcnn_ros |
+| /yolact_ros/visualization | sensor_msgs/Image | visualization of segmented image|
