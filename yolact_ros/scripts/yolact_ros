@@ -3,7 +3,12 @@ import roslib
 roslib.load_manifest('yolact_ros')
 import sys
 import os
+import time
+from datetime import datetime
+import csv 
 sys.path.append(os.path.join(os.path.dirname(__file__), "yolact"))
+
+
 import rospy
 import rospkg
 import cv2
@@ -20,8 +25,8 @@ from yolact_ros_msgs.msg import Mask
 from yolact_ros_msgs.msg import Result
 
 from yolact_ros_msgs import mask_utils
-
 from cv_bridge import CvBridge, CvBridgeError
+
 
 import numpy as np
 import torch
@@ -39,6 +44,15 @@ from rospy.numpy_msg import numpy_msg
 
 from dynamic_reconfigure.server import Server as ReconfigureServer
 from yolact_ros.cfg import YolactConfig
+
+# Init fps csv file name
+now = datetime.now()
+timestamp =  now.strftime('%Y%m%d-%H%M%S')
+FPS_CSV_FOLDER = os.getenv("HOME") + '/.ros/'
+FPS_CSV_FILE_NAME = 'fps_csv' + timestamp + '.csv'
+fps_csv_file = open(FPS_CSV_FOLDER + FPS_CSV_FILE_NAME, 'a+', encoding='utf-8', newline='')
+fps_csv_writer = csv.writer(fps_csv_file)
+fps_csv_writer.writerow(['processing_time_per_frame(second)'])
 
 CLASS_NAMES = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'bus', 'train', 'truck', 'boat', 'traffic light',
@@ -321,10 +335,13 @@ class YolactNode:
 
   def evalimage(self, cv_image, image_header):
     with torch.no_grad():
+      start_eval_time = time.time()
       frame = torch.from_numpy(cv_image).cuda().float()
       batch = FastBaseTransform()(frame.unsqueeze(0))
       preds = self.net(batch)
-
+      end_eval_time = time.time()
+      delta_time = end_eval_time - start_eval_time
+      fps_csv_writer.writerow([delta_time])
       h, w, _ = frame.shape
       classes, scores, boxes, masks = self.postprocess_results(preds, w, h)
 
@@ -489,3 +506,4 @@ def main(args):
 
 if __name__ == '__main__':
     main(sys.argv)
+    fps_csv_file.close()
