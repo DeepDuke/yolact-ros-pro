@@ -4,12 +4,13 @@
 <node pkg="yolact_ros" type="yolact_ros" name="yolact_ros" output="screen">
   <!-- <param name="model_path" value="/home/spacex/.ros/yolact_base_54_800000.pth" /> -->
   <!-- <param name="model_path" value="/home/spacex/.ros/yolact_base_0_7998.pth" /> -->
-  <param name="model_path" value="/home/spacex/.ros/yolact_base_32_480000.pth" />
+  <!-- <param name="model_path" value="/home/spacex/.ros/yolact_base_32_480000.pth" /> -->
+  <param name="model_path" value="/home/spacex/.ros/yolact_base_50_740000.pth" />
   <param name="image_topic" value="/camera/rgb/image_raw" />
   <param name="use_compressed_image" value="False" />
   <param name="publish_visualization" value="True" />
   <param name="publish_detecitons" value="True" />
-  <param name="display_visualization" value="False" />
+  <param name="display_visualization" value="True" />
 </node>
 
 </launch>
