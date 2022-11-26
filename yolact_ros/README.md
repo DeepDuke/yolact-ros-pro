@@ -4,7 +4,7 @@ ROS wrapper for Yolact.
 
 ## Related packages
 
-This pakcage is modified from [yolact_ros](https://github.com/Eruvae/yolact_ros).
+This pakcage is modified from [yolact_ros](https://github.com/Eruvae/yolact_ros) and [mask_rcnn_ros](https://github.com/akio/mask_rcnn_ros).
 
 ## Installation
 
@@ -53,6 +53,6 @@ The following parameters are available:
 ### ROS Topics
 | Topic Name | Topic Messsage Type| Description |
 |--- | ---|--- |
-| /mask_rcnn/result | yolact_ros_msgs/Result| Instance segmantation results information, its message structure is same as in mask_rccn_ros package|
+| /mask_rcnn/result | yolact_ros_msgs/Result| Instance segmantation results information, its message structure is same as in [mask_rccn_ros](https://github.com/akio/mask_rcnn_ros) package|
 | /yolact_ros/detections | yolact_ros_msgs/Detections| Instance segmantation results information, the masks are represented by  uint8 array not sensors_msgs/Image in mask_rcnn_ros |
 | /yolact_ros/visualization | sensor_msgs/Image | visualization of segmented image|
