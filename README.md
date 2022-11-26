@@ -1,4 +1,4 @@
-# yolact_ros
+# yolact-ros-pro
 
 ROS wrapper for Yolact.
 
