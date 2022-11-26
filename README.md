@@ -1,7 +1,8 @@
 # yolact-ros-pro
 
-ROS wrapper for Yolact.
+ROS wrapper for Instance and Semantic Segmentation algorithm- Yolact.
 
+![](./fig/result.png)
 ## Related packages
 
 This pakcage is modified from [yolact_ros](https://github.com/Eruvae/yolact_ros) and [mask_rcnn_ros](https://github.com/akio/mask_rcnn_ros).
