@@ -49,10 +49,10 @@ from yolact_ros.cfg import YolactConfig
 now = datetime.now()
 timestamp =  now.strftime('%Y-%m-%d-%H-%M-%S')
 FPS_CSV_FOLDER = os.getenv("HOME") + '/.ros/'
-FPS_CSV_FILE_NAME = 'fps_csv_' + timestamp + '.csv'
+FPS_CSV_FILE_NAME = 'yolcat_fps_csv_' + timestamp + '.csv'
 fps_csv_file = open(FPS_CSV_FOLDER + FPS_CSV_FILE_NAME, 'a+', encoding='utf-8', newline='')
 fps_csv_writer = csv.writer(fps_csv_file)
-fps_csv_writer.writerow(['processing_time_per_frame(second)'])
+fps_csv_writer.writerow(['timestamp', 'processing_time_per_frame(second)'])
 
 # Calc FPS
 FPS_SUM_TIME = 0.0
@@ -349,7 +349,8 @@ class YolactNode:
       global FPS_SUM_TIME, FPS_CNT, fps_csv_writer
       FPS_SUM_TIME += delta_time
       FPS_CNT += 1
-      fps_csv_writer.writerow([delta_time])
+      timestamp = datetime.timestamp(datetime.now())
+      fps_csv_writer.writerow([timestamp, delta_time])
 
       h, w, _ = frame.shape
       classes, scores, boxes, masks = self.postprocess_results(preds, w, h)
