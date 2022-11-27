@@ -28,7 +28,7 @@ catkin_make
 
 First, download (or train) a model to use. You can find pre-trained models [here](https://github.com/dbolya/yolact#evaluation). The default model is [yolact_base_54_800000.pth](https://drive.google.com/file/d/1UYy3dMapbH1BnmtZU4WH1zbYgOzzHHf_/view?usp=sharing). If you want to use a Yolact++ model, you'll have to install DCNv2 (see [Yolact installation instructions](https://github.com/dbolya/yolact#installation)). Note that the DCN version shipped with Yolact does currently not work with the newest Pytorch release. An updated version can be found [here](https://github.com/jinfagang/DCNv2_latest).
 
-We also provide our trained model, you can download from this link: [link to be add ]()
+We also provide our trained model, you can download from this link: [clink here to download model](https://drive.google.com/file/d/1RDzzF1W3p65_S2qPx02WDqLb8KibJbz5/view?usp=sharing)
 
 You can run yolact using rosrun:
 ```Shell
